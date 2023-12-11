@@ -1,8 +1,10 @@
 const express = require('express');
 const path = require('path');
 const mongoose = require('mongoose');
+const ejsMate = require('ejs-mate');
 const Campground = require('./models/campground');
 const methodOverride = require('method-override');
+// const { campgroundSchema } = require('./schemas.js'); 
 
 mongoose.connect('mongodb://localhost:27017/yelpcamp', {
     useNewUrlParser: true,
@@ -19,13 +21,23 @@ const app = express();
 
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
-
+app.engine('ejs', ejsMate);
 app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride('_method'));
 
 app.get('/', (req, res) => {
     res.render('home');
 })
+
+// const validateCampground = (req, res, next) => {
+//     const { error } = campgroundSchema.validate(req.body);
+//     if (error) {
+//         const msg = error.details.map(el => el.message).join(',')
+//         throw new ExpressError(msg, 400)
+//     } else {
+//         next();
+//     }
+// }
 
 
 app.get('/campgrounds', async (req, res) => {
@@ -49,7 +61,7 @@ app.get('/campgrounds/:id/edit', async (req, res) => {
 })
 
 
-app.post('/campgrounds', async (req, res) => {
+app.post('/campgrounds', async (req, res, next) => {
     const campground = new Campground(req.body.campground);
     await campground.save();
     res.redirect(`/campgrounds/${campground._id}`)
@@ -66,5 +78,6 @@ app.delete('/campgrounds/:id', async (req, res) => {
     await Campground.findByIdAndDelete(id);
     res.redirect('/campgrounds');
 })
+
 app.listen(3000, () => console.log('Running on port 3000'));
 

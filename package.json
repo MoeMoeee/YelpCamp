@@ -9,7 +9,9 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "ejs-mate": "^4.0.0",
     "method-override": "^3.0.0",
+    "joi": "^17.2.1",
     "nodemon": "^3.0.1"
   }
 }
