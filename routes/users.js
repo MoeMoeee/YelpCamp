@@ -33,7 +33,7 @@ router.get('/login', (req, res) => {
 
 // send post request to log users in 
 router.post('/login', passport.authenticate('local', { failureFlash: true, failureRedirect: '/login' }), (req, res) => {
-    req.flash('success', 'Welcome back!');
+    req.flash('success', 'Welcome Back!');
     const redirectUrl = req.session.returnTo || '/campgrounds';
     delete req.session.returnTo;
     res.redirect(redirectUrl);
@@ -41,7 +41,7 @@ router.post('/login', passport.authenticate('local', { failureFlash: true, failu
 
 router.get('/logout', (req, res) => {
     req.logout();
-    req.flash('success', "Goodbye!");
+    req.flash('success', "Successfully Log Out");
     res.redirect('/campgrounds');
 })
 
