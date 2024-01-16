@@ -30,7 +30,7 @@ module.exports.isAuthor = async (req, res, next) => {
     next();
 }
 
-
+// check condition before saving the camp
 module.exports.validateCampground = (req, res, next) => {
     const { error } = campgroundSchema.validate(req.body);
     if (error) {
@@ -41,6 +41,7 @@ module.exports.validateCampground = (req, res, next) => {
     }
 }
 
+// check condition before saving the review
 module.exports.validateReview = (req, res, next) => {
     const { error } = reviewSchema.validate(req.body);
     if (error) {
