@@ -15,7 +15,7 @@ router.post('/register', catchAsync(user.registerUser));
 router.get('/login', user.renderlogIn)
 
 // send post request to log users in 
-router.post('/login', storeURL ,passport.authenticate('local', { failureFlash: true, failureRedirect: '/login' }), user.logIn)
+router.post('/login', storeURL, passport.authenticate('local', { failureFlash: true, keepSessionInfo: true, failureRedirect: '/login' }), user.logIn)
 
 // log users out
 router.get('/logout', user.logOut);
