@@ -59,7 +59,15 @@ module.exports.editCampground = async (req, res) => {
         req.flash('error', 'You do not have permission!');
         return res.redirect(`/campgrounds/${id}`);
     }
-    // const campground = await Campground.findByIdAndUpdate(id, { ...req.body.campground });
+
+    // update more images
+    const campgroundNew = await Campground.findByIdAndUpdate(id, { ...req.body.campground });
+
+    const img = req.files.map(f => ({url: f.path, filename: f.filename}));
+    campgroundNew.images.push(...img);
+
+    await campgroundNew.save();
+
     req.flash('success', 'Successfully updated campground!');
     res.redirect(`/campgrounds/${campground._id}`)
 }
