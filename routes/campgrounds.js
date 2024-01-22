@@ -12,13 +12,7 @@ router.get('/', catchAsync(camp.renderCampground));
 
 router.get('/new', isLoggedIn, camp.renderNewCampground)
 
-// router.post('/',isLoggedIn, validateCampground, catchAsync(camp.createCampground))
-
-
-// test connecting multer
-router.post('/', upload.array('image'), (req, res) => {
-    console.log(req.body, req.files);
-})
+router.post('/',isLoggedIn, upload.array('image'),validateCampground, catchAsync(camp.createCampground))
 
 router.get('/:id', catchAsync(camp.getCampground));
 
