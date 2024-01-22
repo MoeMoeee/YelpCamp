@@ -52,41 +52,46 @@ module.exports.renderEdit = async (req, res) => {
 }
 
 module.exports.editCampground = async (req, res) => {
-    const { id } = req.params;
+    const {id} = req.params;
+
     const campground = await Campground.findById(id);
 
-    if (!campground.author.equals(req.user._id)){
-        req.flash('error', 'You do not have permission!');
+    // Check for permission to update
+    if (!campground.author.equals(req.user._id)) {
+        req.flash('error', 'You do not have permission to do that');
         return res.redirect(`/campgrounds/${id}`);
     }
 
-    // update more images
-    const campgroundNew = await Campground.findByIdAndUpdate(id, { ...req.body.campground });
+    // Update more information
+    campground.set(req.body.campground);
+    await campground.save();
 
-    const img = req.files.map(f => ({url: f.path, filename: f.filename}));
-    campgroundNew.images.push(...img);
+    // Update images
+    const img = req.files.map(f => ({ url: f.path, filename: f.filename }));
+    campground.images.push(...img);
+    await campground.save();
 
-    await campgroundNew.save();
-    if(req.body.deleteImages) {
+    // Delete images
+    if (req.body.deleteImages) {
         for (let filename of req.body.deleteImages) {
             await cloudinary.uploader.destroy(filename);
-        }
-
-        await campground.updateOne(
-            {
-                $pull: {
-                    images: {
-                        filename: {
-                            $in: req.body.deleteImages
-                        }
-                    }
-                }
-            }
-        );
     }
-    
+
+    // Remove deleted images from the campground document
+    await campground.updateOne({
+        $pull: {
+        images: {
+            filename: {
+            $in: req.body.deleteImages
+            }
+        }
+        }
+    });
+    }
+
     req.flash('success', 'Successfully updated campground!');
-    res.redirect(`/campgrounds/${campground._id}`)
+    res.redirect(`/campgrounds/${campground._id}`);
+
 }
 
 module.exports.deleteCampground = async (req, res) => {
