@@ -1,6 +1,8 @@
 <% layout('layouts/boilerplate')%>
 <link rel="stylesheet" href="/stylesheets/stars.css">
-
+<script>
+    const mapToken = 'pk.eyJ1IjoicGhhbWJhZGFuZ2tob2EiLCJhIjoiY2xycTBlcWU5MDg1aDJpbXExa2NyZzF0diJ9.lS95msHwOLTYWdN6U7MGqQ';
+</script>
 
 <div class="row">
     <div class="col-6">
@@ -45,7 +47,9 @@
             <div class="card-footer text-muted">
                 2 days ago
             </div>
-        </div>
+            <div id='map' style='width: 400px; height: 300px;'></div>
+                <script src="/javascripts/showMap.js"></script>
+            </div>
 
     </div>
     <div class="col-6">
