@@ -1,10 +1,9 @@
-
 mapboxgl.accessToken = 'pk.eyJ1IjoicGhhbWJhZGFuZ2tob2EiLCJhIjoiY2xycTBlcWU5MDg1aDJpbXExa2NyZzF0diJ9.lS95msHwOLTYWdN6U7MGqQ';
 
 const map = new mapboxgl.Map({
     container: 'map',
     // Choose from Mapbox's core styles, or make your own style with Mapbox Studio
-    style: 'mapbox://styles/mapbox/dark-v11',
+    style: 'mapbox://styles/mapbox/satellite-streets-v12',
     center: [-103.5917, 40.6699],
     zoom: 3
 });
@@ -107,9 +106,8 @@ map.on('load', () => {
     // description HTML from its properties.
     map.on('click', 'unclustered-point', (e) => {
         const coordinates = e.features[0].geometry.coordinates.slice();
+        const {tittle} = campground.features;
         const mag = e.features[0].properties.mag;
-        const tsunami =
-            e.features[0].properties.tsunami === 1 ? 'yes' : 'no';
 
         // Ensure that if the map is zoomed out such that
         // multiple copies of the feature are visible, the
@@ -117,12 +115,11 @@ map.on('load', () => {
         while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
             coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
         }
+        // console.log(campground.features);
 
         new mapboxgl.Popup()
             .setLngLat(coordinates)
-            .setHTML(
-                `magnitude: ${mag}<br>Was there a tsunami?: ${tsunami}`
-            )
+            // .setHTML(tittle)
             .addTo(map);
     });
 
