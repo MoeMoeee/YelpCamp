@@ -7,6 +7,9 @@ const imageSchema = new Schema({
     filename: String
 });
 
+// make virtual properties included when converted to JSON
+const opts = { toJSON: { virtuals: true } };
+
 // set up property virtuals (not store in db)
 imageSchema.virtual('thumb').get(function() {
     return this.url.replace('/upload', '/upload/w_200');
@@ -40,7 +43,15 @@ const campgroundSchema = new Schema({
             ref: 'Review'
         }
     ]
+}, opts);
+
+// set up property virtuals (not store in db)
+campgroundSchema.virtual('properties.popUp').get(function () {
+    return `
+    <strong><a href="/campgrounds/${this._id}">${this.title}</a><strong>
+    <p>${this.description.substring(0, 20)}...</p>`
 });
+
 
 // middleware to delete
 campgroundSchema.post('findOneAndDelete', async function (doc) {

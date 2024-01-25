@@ -106,7 +106,7 @@ map.on('load', () => {
     // description HTML from its properties.
     map.on('click', 'unclustered-point', (e) => {
         const coordinates = e.features[0].geometry.coordinates.slice();
-        const {tittle} = campground.features;
+        const {popUp} = e.features[0].properties;
         const mag = e.features[0].properties.mag;
 
         // Ensure that if the map is zoomed out such that
@@ -119,7 +119,7 @@ map.on('load', () => {
 
         new mapboxgl.Popup()
             .setLngLat(coordinates)
-            // .setHTML(tittle)
+            .setHTML(popUp)
             .addTo(map);
     });
 
