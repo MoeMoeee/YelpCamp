@@ -48,11 +48,12 @@
             <div class="card-footer text-muted">
                 2 days ago
             </div>
-            <div id='map' style='width: 400px; height: 300px;'></div>
-                <script src="/javascripts/showMap.js"></script>
+            <div id='map-container' style='width: 100%; height: 300px;'>
+                <div id='map' style='width: 100%; height: 100%;'></div>
             </div>
-
-    </div>
+            <script src="/javascripts/showMap.js"></script>
+        </div>
+        
     <div class="col-6">
         <% if(currentUser){ %>
         <h2>Leave a Review</h2>

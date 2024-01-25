@@ -1,7 +1,7 @@
 mapboxgl.accessToken = 'pk.eyJ1IjoicGhhbWJhZGFuZ2tob2EiLCJhIjoiY2xycTBlcWU5MDg1aDJpbXExa2NyZzF0diJ9.lS95msHwOLTYWdN6U7MGqQ';
 
 const map = new mapboxgl.Map({
-    container: 'map',
+    container: 'cluster-map',
     // Choose from Mapbox's core styles, or make your own style with Mapbox Studio
     style: 'mapbox://styles/mapbox/satellite-streets-v12',
     center: [-103.5917, 40.6699],
