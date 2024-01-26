@@ -63,8 +63,6 @@ passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
 app.use((req, res, next) => {
-    console.log(req.query);
-
     res.locals.success = req.flash('success');
     res.locals.error = req.flash('error');
     // req.user automatically created and populated by Passport 
