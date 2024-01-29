@@ -14,7 +14,7 @@ const passport = require('passport');
 const LocalStrategy = require('passport-local');
 const User = require('./models/user');
 const mongoSanitize = require('express-mongo-sanitize');
-
+// const helmet = require('helmet');
 
 // route
 const userRoutes = require('./routes/users');
@@ -40,7 +40,7 @@ app.engine('ejs', ejsMate);
 app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride('_method'));
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(mongoSanitize());
+
 
 const sessionConfig = {
     name: 'session',
@@ -56,6 +56,13 @@ const sessionConfig = {
 }
 app.use(session(sessionConfig))
 app.use(flash());
+app.use(mongoSanitize());
+// app.use(
+//     helmet({
+//       contentSecurityPolicy: false,
+//       xDownloadOptions: false,
+//     })
+//   );
 
 app.use(passport.initialize());
 app.use(passport.session());
